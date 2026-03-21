@@ -1,0 +1,313 @@
+/* --- Home Container with Animated Gradient --- */
+.home-container {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  overflow: hidden;
+  background: linear-gradient(135deg, #f0f4ff, #ffffff, #e6f0ff);
+  background-size: 300% 300%;
+  animation: gradientShift 15s ease infinite;
+  text-align: center;
+  padding: 2rem;
+}
+
+
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-section {
+  position: relative;
+  height: 93vh;
+  width: 100%;
+  overflow: hidden;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* video background */
+
+.hero-video {
+  height: 170px;
+  border-radius: 12px;
+}
+
+/* dark overlay */
+
+.hero-section::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+}
+
+/* text container */
+
+.hero-overlay {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: white;
+  max-width: 750px;
+  padding: 20px;
+}
+
+/* title */
+
+.hero-title {
+  font-size: clamp(3rem,6vw,5rem);
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.hero-subtitle {
+  margin-top: 20px;
+  font-size: 1.2rem;
+  opacity: 0.9;
+}
+
+.hero-cta {
+  margin-top: 35px;
+  padding: 14px 32px;
+  border: none;
+  background: white;
+  color: black;
+  cursor: pointer;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+.hero-cta:hover {
+  transform: translateY(-3px);
+}
+
+
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+
+.floating-shapes {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: painted;
+  overflow: hidden;
+}
+
+.shape {
+  position: absolute;
+  opacity: 0.4;
+  animation: floatShape 10s linear infinite;
+}
+
+.circle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #a0c4ff;
+  top: 10%;
+  left: 20%;
+  animation-duration: 12s;
+}
+
+.square {
+  width: 50px;
+  height: 50px;
+  background: #bdb2ff;
+  top: 30%;
+  left: 70%;
+  animation-duration: 15s;
+}
+
+.triangle {
+  width: 0;
+  height: 0;
+  border-left: 25px solid transparent;
+  border-right: 25px solid transparent;
+  border-bottom: 50px solid #ffc6ff;
+  top: 60%;
+  left: 40%;
+  animation-duration: 18s;
+}
+
+.hexagon {
+  width: 60px;
+  height: 34.64px;
+  background: #ffadad;
+  position: absolute;
+  top: 80%;
+  left: 10%;
+  clip-path: polygon(
+    25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%
+  );
+  animation-duration: 20s;
+}
+
+.small { transform: scale(0.6); }
+.medium { transform: scale(1.2); }
+.large { transform: scale(1.5); }
+
+/* Positions */
+.circle { top: 10%; left: 20%; animation-duration: 12s; }
+.square { top: 30%; left: 70%; animation-duration: 15s; }
+.triangle { top: 60%; left: 40%; animation-duration: 18s; }
+.hexagon { top: 80%; left: 10%; animation-duration: 20s; }
+.circle.small { top: 50%; left: 50%; animation-duration: 14s; }
+.square.medium { top: 20%; left: 80%; animation-duration: 17s; }
+.triangle.large { top: 70%; left: 60%; animation-duration: 19s; }
+.hexagon.small { top: 40%; left: 30%; animation-duration: 16s; }
+
+
+/* --- Float Animation --- */
+@keyframes floatShape {
+  0% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-30px) rotate(180deg); }
+  100% { transform: translateY(0) rotate(360deg); }
+}
+
+
+
+/* ===========================
+   LARGE SCREENS (≤1400px)
+   =========================== */
+@media (max-width: 1400px) {
+  .hero-title {
+    font-size: 2.7rem;
+  }
+  .hero-subtitle {
+    font-size: 1.15rem;
+    max-width: 650px;
+  }
+}
+
+
+@media (max-width: 1024px) {
+  .hero-title {
+    font-size: 2.4rem;
+  }
+  .hero-subtitle {
+    font-size: 1.1rem;
+    max-width: 600px;
+  }
+
+  .shape {
+    transform: scale(0.8);
+  }
+}
+
+
+@media (max-width: 768px) {
+  .home-container {
+    padding: 3rem 1.5rem;
+  }
+
+  .hero-title {
+    font-size: 2.2rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+    max-width: 500px;
+  }
+
+  /* Shapes smaller for phones */
+  .shape {
+    opacity: 0.3;
+    transform: scale(0.65);
+  }
+}
+
+
+@media (max-width: 600px) {
+  .hero-title {
+    font-size: 1.9rem;
+  }
+
+  .hero-subtitle {
+    font-size: 0.95rem;
+    max-width: 420px;
+  }
+
+  /* Reduce shape density */
+  .circle,
+  .square,
+  .triangle,
+  .hexagon {
+    transform: scale(0.5);
+  }
+}
+
+
+@media (max-width: 480px) {
+  .home-container {
+    padding: 2.5rem 1rem;
+  }
+
+  .hero-title {
+    font-size: 1.7rem;
+  }
+
+  .hero-subtitle {
+    font-size: 0.9rem;
+  }
+
+  /* Clean mobile look  */
+  .shape {
+    opacity: 0.25;
+  }
+}
+
+
+@media (max-width: 360px) {
+  .hero-title {
+    font-size: 1.5rem;
+  }
+  .hero-subtitle {
+    font-size: 0.85rem;
+  }
+
+  .shape {
+    transform: scale(0.4);
+    opacity: 0.2;
+  }
+}
+
+
+
+/* statement  */
+.statement-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 8vw;
+  background: #ffffff;
+}
+
+.statement-text {
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 600;
+  line-height: 1.2;
+  max-width: 1000px;
+  text-align: center;
+}
