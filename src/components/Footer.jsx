@@ -30,8 +30,9 @@ export default function Footer() {
         <div className="footer-links">
           <h4>Solutions</h4>
           <ul>
-            {/* <li><Link to="/products">Products</Link></li>
+            {/*             <li><Link to="/products">Products</Link></li>
             <li><Link to="/initiatives">Initiatives</Link></li> */}
+            <li><Link to="/pricing">Pricing</Link></li>
             <li><Link to="/contact">Contact</Link></li>
           </ul>
         </div>
