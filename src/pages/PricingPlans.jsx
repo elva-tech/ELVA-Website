@@ -24,13 +24,24 @@ const PAGE_TITLE =
 const PAGE_DESCRIPTION =
   "Explore ELVA's software development, managed services, application support and custom engineering engagement models.";
 
-/** Every CTA on this page leads to the contact page, and reports the click. */
-function QuoteLink({ children, event = "pricing_cta_click", label, variant = "primary" }) {
+/**
+ * Every CTA leads to the contact page. Plan CTAs pass their slug so the enquiry
+ * names the plan the customer clicked; general CTAs pass the source page only.
+ */
+function QuoteLink({
+  children,
+  event = "pricing_cta_click",
+  label,
+  plan,
+  variant = "primary"
+}) {
+  const search = plan ? `?plan=${plan}` : "?from=pricing-plans";
+
   return (
     <Link
-      to="/contact"
+      to={`/contact${search}`}
       className={`pp-btn pp-btn-${variant}`}
-      onClick={() => trackEvent(event, { label })}
+      onClick={() => trackEvent(event, { label, plan })}
     >
       {children}
       <span className="pp-arrow" aria-hidden="true">&rarr;</span>
@@ -259,6 +270,7 @@ export default function PricingPlans() {
               <QuoteLink
                 event="pricing_quote_click"
                 label={plan.id}
+                plan={plan.id}
                 variant="outline"
               >
                 {plan.cta}
@@ -325,7 +337,8 @@ export default function PricingPlans() {
 
                   <QuoteLink
                     event="pricing_quote_click"
-                    label={`${group.id}-${plan.name}`}
+                    label={plan.slug}
+                    plan={plan.slug}
                     variant="outline"
                   >
                     Get a Quote
@@ -395,6 +408,7 @@ export default function PricingPlans() {
           <QuoteLink
             event="pricing_contact_click"
             label="enterprise"
+            plan="enterprise-support"
             variant="outline"
           >
             Talk to ELVA

@@ -85,7 +85,7 @@ export default function Pricing() {
           and we'll provide a detailed proposal.
         </p>
 
-        <Link to="/contact" className="pricing-quote-btn">
+        <Link to="/contact?from=pricing" className="pricing-quote-btn">
           Get a Quote
           <span className="pricing-arrow" aria-hidden="true">&rarr;</span>
         </Link>

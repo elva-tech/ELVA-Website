@@ -431,6 +431,16 @@ export const careGroups = [
   }
 ];
 
+const slugify = (value) =>
+  value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+
+/* A stable slug per recurring plan, so CTA links and labels cannot drift apart. */
+careGroups.forEach((group) => {
+  group.plans.forEach((plan) => {
+    plan.slug = `${group.id}-${slugify(plan.name)}`;
+  });
+});
+
 /** Flat rows for the quick-comparison table, derived from careGroups. */
 export const recurringComparison = careGroups.flatMap((group) =>
   group.plans.map((plan) => ({
@@ -552,6 +562,44 @@ export const paymentTerms = [
     ]
   }
 ];
+
+/* ---------- ENQUIRY SOURCES ---------- */
+
+/**
+ * Maps the ?plan= slug used by pricing CTAs to a readable label, so an enquiry
+ * arrives naming the exact plan and price the customer clicked. Unknown slugs
+ * resolve to null, which keeps arbitrary URL text out of enquiry emails.
+ */
+
+function developmentLabel(plan) {
+  const prefix = plan.pricePrefix ? `${plan.pricePrefix} ` : "";
+  return `${plan.name} — ${prefix}${formatINR(plan.price)} ${plan.billingLabel}`;
+}
+
+function recurringLabel(group, plan) {
+  const price = plan.monthly
+    ? `${formatINR(plan.monthly)}/month or ${formatINR(plan.annual)}/year`
+    : `${formatINR(plan.annual)}/year`;
+
+  return `${group.heading} — ${plan.name} — ${price}`;
+}
+
+export const enquirySources = {
+  ...Object.fromEntries(
+    developmentPlans.map((plan) => [plan.id, developmentLabel(plan)])
+  ),
+  ...Object.fromEntries(
+    careGroups.flatMap((group) =>
+      group.plans.map((plan) => [plan.slug, recurringLabel(group, plan)])
+    )
+  ),
+  "enterprise-support": "Enterprise & Custom Support — Custom Quote"
+};
+
+export function getEnquiryLabel(slug) {
+  if (!slug) return null;
+  return enquirySources[slug] ?? null;
+}
 
 /* ---------- FAQ ---------- */
 
