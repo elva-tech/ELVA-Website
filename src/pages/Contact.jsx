@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import gsap from "gsap";
@@ -6,20 +7,22 @@ import { trackEvent } from "../utils/analytics";
 import "../styles/contact.css";
 import "../index.css";
 
+const FORMSUBMIT_ENDPOINT =
+  "https://formsubmit.co/ajax/tech.elva@gmail.com";
+
 export default function Contact() {
-
   const pageRef = useRef(null);
-
   const [searchParams] = useSearchParams();
 
-  /* Set when the visitor arrives from a pricing CTA; unknown slugs resolve to null. */
+  // Set when the visitor arrives from a pricing CTA.
   const planLabel = getEnquiryLabel(searchParams.get("plan"));
-  const source = searchParams.get("from") || (planLabel ? "pricing-plans" : null);
+  const source =
+    searchParams.get("from") || (planLabel ? "pricing-plans" : null);
 
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    message: ""
+    message: "",
   });
 
   const [submitted, setSubmitted] = useState(false);
@@ -27,13 +30,11 @@ export default function Contact() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-
     const ctx = gsap.context(() => {
-
       gsap.from(".section-title", {
         y: 80,
         opacity: 0,
-        duration: 1
+        duration: 1,
       });
 
       gsap.from(".team-member", {
@@ -41,25 +42,27 @@ export default function Contact() {
         opacity: 0,
         duration: 1,
         stagger: 0.2,
-        delay: 0.2
+        delay: 0.2,
       });
 
       gsap.from(".contact-form", {
         y: 80,
         opacity: 0,
         duration: 1,
-        delay: 0.4
+        delay: 0.4,
       });
-
     }, pageRef);
 
     return () => ctx.revert();
-
   }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -76,33 +79,42 @@ export default function Contact() {
       ...(source && { source }),
       _subject: planLabel
         ? `ELVA enquiry — ${planLabel}`
-        : "ELVA website enquiry"
+        : "ELVA website enquiry",
+      _template: "table",
     };
 
     try {
-      const response = await fetch("https://formspree.io/f/manjkdrz", {
+      const response = await fetch(FORMSUBMIT_ENDPOINT, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Accept: "application/json"
+          Accept: "application/json",
         },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
       });
 
-      /* Formspree answers 4xx for validation, spam and quota rejections. */
-      if (!response.ok) {
-        throw new Error(`Formspree responded with ${response.status}`);
+      const result = await response.json();
+
+      if (!response.ok || result?.success === false) {
+        throw new Error(
+          result?.message || `FormSubmit responded with ${response.status}`
+        );
       }
 
       trackEvent("contact_form_submit", {
         plan: planLabel ?? "none",
-        source: source ?? "direct"
+        source: source ?? "direct",
       });
 
       setSubmitted(true);
-      setFormData({ name: "", email: "", message: "" });
+      setFormData({
+        name: "",
+        email: "",
+        message: "",
+      });
     } catch (err) {
-      console.error(err);
+      console.error("Contact form submission failed:", err);
+
       setError(
         "We couldn't send your message. Please try again, or call us on the numbers above."
       );
@@ -113,66 +125,65 @@ export default function Contact() {
 
   return (
     <div ref={pageRef} className="contact-container">
-
       <h1 className="section-title">Contact ELVA</h1>
 
-      <p style={{ textAlign: "center", marginBottom: "40px", opacity: 0.8 }}>
+      <p
+        style={{
+          textAlign: "center",
+          marginBottom: "40px",
+          opacity: 0.8,
+        }}
+      >
         Interested in working with ELVA or learning more about our solutions?
         Reach out to our team.
       </p>
 
-    <div className="team-contacts">
+      <div className="team-contacts">
+        <div className="team-member">
+          <img
+            src="/assets/c1.jpeg"
+            alt="Sai"
+            style={{
+              width: "220px",
+              height: "220px",
+              objectFit: "contain",
+              display: "block",
+              margin: "0 auto 16px auto",
+              borderRadius: "22px",
+            }}
+          />
 
-  <div className="team-member">
+          <h2>Sai</h2>
+          <p>+91-96111 49957</p>
+        </div>
 
-    <img
-      src="/assets/c1.jpeg"
-      alt="Sai"
-      style={{
-        width: "220px",
-        height: "220px",
-        objectFit: "contain",
-        display: "block",
-        margin: "0 auto 16px auto",
-        borderRadius: "22px"
-      }}
-    />
+        <div className="team-member">
+          <img
+            src="/assets/c2.jpeg"
+            alt="Gopinath"
+            style={{
+              width: "220px",
+              height: "220px",
+              objectFit: "contain",
+              display: "block",
+              margin: "0 auto 16px auto",
+              borderRadius: "22px",
+            }}
+          />
 
-    <h2>Sai</h2>
-    <p>+91-96111 49957</p>
-
-  </div>
-
-
-  <div className="team-member">
-
-    <img
-      src="/assets/c2.jpeg"
-      alt="Gopinath"
-      style={{
-        width: "220px",
-        height: "220px",
-        objectFit: "contain",
-        display: "block",
-        margin: "0 auto 16px auto",
-        borderRadius: "22px"
-      }}
-    />
-
-    <h2>Gopinath</h2>
-    <p>+91-99723 04620</p>
-
-  </div>
-
-</div>
+          <h2>Gopinath</h2>
+          <p>+91-99723 04620</p>
+        </div>
+      </div>
 
       <h2 className="form-title">Send an Enquiry</h2>
 
       {submitted ? (
-
         <div className="enquiry-success" role="status">
-
-          <span className="enquiry-success-icon" aria-hidden="true"></span>
+          <span
+            className="enquiry-success-icon"
+            aria-hidden="true"
+          ></span>
 
           <h3>Enquiry sent</h3>
 
@@ -194,25 +205,29 @@ export default function Contact() {
           >
             Send another enquiry
           </button>
-
         </div>
-
       ) : (
-
         <>
-
           {planLabel && (
             <div className="enquiry-context">
-              <span className="enquiry-context-label">Enquiry about</span>
-              <strong className="enquiry-context-plan">{planLabel}</strong>
-              <Link to="/pricing-plans" className="enquiry-context-clear">
+              <span className="enquiry-context-label">
+                Enquiry about
+              </span>
+
+              <strong className="enquiry-context-plan">
+                {planLabel}
+              </strong>
+
+              <Link
+                to="/pricing-plans"
+                className="enquiry-context-clear"
+              >
                 Change
               </Link>
             </div>
           )}
 
           <form className="contact-form" onSubmit={handleSubmit}>
-
             <input
               type="text"
               placeholder="Name"
@@ -245,15 +260,13 @@ export default function Contact() {
             </button>
 
             {error && (
-              <p className="form-error" role="alert">{error}</p>
+              <p className="form-error" role="alert">
+                {error}
+              </p>
             )}
-
           </form>
-
         </>
-
       )}
-
     </div>
   );
 }

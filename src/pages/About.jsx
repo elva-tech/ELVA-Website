@@ -33,7 +33,8 @@ export default function About() {
         y: 60,
         opacity: 0,
         duration: 1,
-        stagger: 0.2
+        stagger: 0.2,
+        clearProps: "transform"
       });
 
     }, pageRef);
@@ -90,27 +91,33 @@ systems, and building solutions that can scale and evolve.
       <div className="about-details">
 
         <div className="about-item">
-          <h3>Our Mission</h3>
-          <p>
-            Build scalable technology platforms that help businesses
-            operate efficiently and grow sustainably.
-          </p>
+          <div className="about-item-face">
+            <h3>Our Mission</h3>
+            <p>
+              Build scalable technology platforms that help businesses
+              operate efficiently and grow sustainably.
+            </p>
+          </div>
         </div>
 
         <div className="about-item">
-          <h3>Our Vision</h3>
-          <p>
-            Create an organization that continuously develops meaningful
-            solutions to real-world problems through technology.
-          </p>
+          <div className="about-item-face">
+            <h3>Our Vision</h3>
+            <p>
+              Create an organization that continuously develops meaningful
+              solutions to real-world problems through technology.
+            </p>
+          </div>
         </div>
 
         <div className="about-item">
-          <h3>Our Values</h3>
-          <p>
-            High energy, high intelligence and high integrity drive
-            everything we build at ELVA.
-          </p>
+          <div className="about-item-face">
+            <h3>Our Values</h3>
+            <p>
+              High energy, high intelligence and high integrity drive
+              everything we build at ELVA.
+            </p>
+          </div>
         </div>
 
       </div>

@@ -17,9 +17,11 @@ export default function Philosophy() {
         duration: 1,
         stagger: 0.25,
         ease: "power3.out",
+        clearProps: "transform",
         scrollTrigger: {
           trigger: ".philosophy-section",
-          start: "top 80%"
+          start: "top 80%",
+          once: true
         }
       });
 
@@ -39,35 +41,43 @@ export default function Philosophy() {
       <div className="philosophy-container">
 
         <div className="philosophy-item">
-          <h3>Engineers are problem solvers</h3>
-          <p>
-            The bigger the problem you solve, the greater you grow as a
-            professional and as a person.
-          </p>
+          <div className="philosophy-item-face">
+            <h3>Engineers are problem solvers</h3>
+            <p>
+              The bigger the problem you solve, the greater you grow as a
+              professional and as a person.
+            </p>
+          </div>
         </div>
 
         <div className="philosophy-item">
-          <h3>Culture over code</h3>
-          <p>
-            At ELVA, culture is more important than code. Great people
-            create great systems.
-          </p>
+          <div className="philosophy-item-face">
+            <h3>Culture over code</h3>
+            <p>
+              At ELVA, culture is more important than code. Great people
+              create great systems.
+            </p>
+          </div>
         </div>
 
         <div className="philosophy-item">
-          <h3>People over process</h3>
-          <p>
-            Trust and collaboration enable teams to build meaningful
-            technology.
-          </p>
+          <div className="philosophy-item-face">
+            <h3>People over process</h3>
+            <p>
+              Trust and collaboration enable teams to build meaningful
+              technology.
+            </p>
+          </div>
         </div>
 
         <div className="philosophy-item">
-          <h3>Trust over tools</h3>
-          <p>
-            Tools change, technologies evolve, but trust between people
-            builds long lasting organizations.
-          </p>
+          <div className="philosophy-item-face">
+            <h3>Trust over tools</h3>
+            <p>
+              Tools change, technologies evolve, but trust between people
+              builds long lasting organizations.
+            </p>
+          </div>
         </div>
 
       </div>
